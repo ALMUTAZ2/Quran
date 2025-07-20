@@ -88,26 +88,99 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             position: relative;
             z-index: 2;
+            margin-bottom: 20px;
         }
 
-        .verse-section {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 25px;
-            margin: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border: 3px solid #ffd700;
+        /* شريط التقدم الاحترافي الجديد */
+        .progress-section {
+            position: relative;
+            z-index: 2;
+            margin-top: 20px;
         }
 
-        .verse-text {
-            font-size: 22px;
-            color: #d4af37;
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .progress-percentage {
+            font-size: 24px;
             font-weight: bold;
-            line-height: 1.8;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+            color: #ffd700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
         }
 
+        .progress-status {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.2);
+            height: 12px;
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            border-radius: 25px;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+        }
+
+        .progress-bar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shine 2s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .progress-markers {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 10px;
+            opacity: 0.7;
+        }
+
+        .progress-marker {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+        }
+
+        .progress-marker-dot {
+            width: 4px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+        }
+
+        .progress-marker.active .progress-marker-dot {
+            background: #ffd700;
+            box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+        }
+
+        /* قسم الإحصائيات المحسن */
         .stats-container {
             display: flex;
             justify-content: space-around;
@@ -154,6 +227,31 @@
         .stat-label {
             font-size: 14px;
             opacity: 0.9;
+        }
+
+        .stat-percentage {
+            font-size: 12px;
+            opacity: 0.8;
+            margin-top: 4px;
+        }
+
+        /* بقية الأنماط كما هي */
+        .verse-section {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 25px;
+            margin: 20px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+            border: 3px solid #ffd700;
+        }
+
+        .verse-text {
+            font-size: 22px;
+            color: #d4af37;
+            font-weight: bold;
+            line-height: 1.8;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
         }
 
         .motivation-card {
@@ -394,22 +492,6 @@
                 opacity: 0;
             }
         }
-
-        .progress-bar {
-            background: rgba(255, 255, 255, 0.3);
-            height: 8px;
-            border-radius: 4px;
-            margin: 15px 0;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            background: linear-gradient(90deg, #ffd700, #ffed4e);
-            height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
     </style>
 </head>
 <body>
@@ -420,8 +502,38 @@
             <h1>رحلة البقرة المباركة</h1>
             <p>40 يوماً من النور والبركة والهداية</p>
             <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
-            <div class="progress-bar">
-                <div class="progress-fill" id="progressFill"></div>
+            
+            <!-- شريط التقدم الاحترافي الجديد -->
+            <div class="progress-section">
+                <div class="progress-info">
+                    <div class="progress-status">التقدم في الرحلة</div>
+                    <div class="progress-percentage" id="progressPercentage">10%</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="progress-markers">
+                    <div class="progress-marker active">
+                        <div class="progress-marker-dot"></div>
+                        <span>البداية</span>
+                    </div>
+                    <div class="progress-marker" id="quarterMarker">
+                        <div class="progress-marker-dot"></div>
+                        <span>25%</span>
+                    </div>
+                    <div class="progress-marker" id="halfMarker">
+                        <div class="progress-marker-dot"></div>
+                        <span>50%</span>
+                    </div>
+                    <div class="progress-marker" id="threeQuarterMarker">
+                        <div class="progress-marker-dot"></div>
+                        <span>75%</span>
+                    </div>
+                    <div class="progress-marker" id="endMarker">
+                        <div class="progress-marker-dot"></div>
+                        <span>النهاية</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -437,14 +549,17 @@
             <div class="stat-card">
                 <div class="stat-number" id="completedDays">4</div>
                 <div class="stat-label">أيام مكتملة</div>
+                <div class="stat-percentage" id="completedPercentage">10%</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="remainingDays">36</div>
                 <div class="stat-label">أيام متبقية</div>
+                <div class="stat-percentage" id="remainingPercentage">90%</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="streakDays">4</div>
                 <div class="stat-label">أيام متتالية</div>
+                <div class="stat-percentage" id="streakPercentage">🔥</div>
             </div>
         </div>
 
@@ -568,8 +683,17 @@
                     completeButton: document.getElementById('completeButton'),
                     resetButton: document.getElementById('resetButton'),
                     exportButton: document.getElementById('exportButton'),
-                    progressFill: document.getElementById('progressFill'),
-                    celebration: document.getElementById('celebration')
+                    celebration: document.getElementById('celebration'),
+                    // عناصر شريط التقدم الجديدة
+                    progressBar: document.getElementById('progressBar'),
+                    progressPercentage: document.getElementById('progressPercentage'),
+                    completedPercentage: document.getElementById('completedPercentage'),
+                    remainingPercentage: document.getElementById('remainingPercentage'),
+                    streakPercentage: document.getElementById('streakPercentage'),
+                    quarterMarker: document.getElementById('quarterMarker'),
+                    halfMarker: document.getElementById('halfMarker'),
+                    threeQuarterMarker: document.getElementById('threeQuarterMarker'),
+                    endMarker: document.getElementById('endMarker')
                 };
             }
 
@@ -598,28 +722,77 @@
                 const streak = this.calculateStreak();
                 const progress = (completed / this.totalDays) * 100;
 
+                // تحديث الأرقام
                 this.elements.completedDays.textContent = completed;
                 this.elements.remainingDays.textContent = remaining;
                 this.elements.streakDays.textContent = streak;
-                this.elements.progressFill.style.width = `${progress}%`;
+
+                // تحديث النسب المئوية
+                const progressRounded = Math.round(progress);
+                this.elements.progressPercentage.textContent = `${progressRounded}%`;
+                this.elements.completedPercentage.textContent = `${progressRounded}%`;
+                this.elements.remainingPercentage.textContent = `${100 - progressRounded}%`;
+                
+                // تحديث نسبة الأيام المتتالية
+                if (streak >= 7) {
+                    this.elements.streakPercentage.textContent = '🔥🔥';
+                } else if (streak >= 3) {
+                    this.elements.streakPercentage.textContent = '🔥';
+                } else {
+                    this.elements.streakPercentage.textContent = '💪';
+                }
+
+                // تحديث شريط التقدم
+                this.elements.progressBar.style.width = `${progress}%`;
+
+                // تحديث علامات التقدم
+                this.updateProgressMarkers(progress);
 
                 this.updateMotivationMessage(streak, completed);
                 this.generateCalendar();
             }
 
+            updateProgressMarkers(progress) {
+                // إزالة الفئة النشطة من جميع العلامات
+                document.querySelectorAll('.progress-marker').forEach(marker => {
+                    marker.classList.remove('active');
+                });
+
+                // تفعيل العلامات حسب التقدم
+                if (progress >= 25) {
+                    this.elements.quarterMarker.classList.add('active');
+                }
+                if (progress >= 50) {
+                    this.elements.halfMarker.classList.add('active');
+                }
+                if (progress >= 75) {
+                    this.elements.threeQuarterMarker.classList.add('active');
+                }
+                if (progress >= 100) {
+                    this.elements.endMarker.classList.add('active');
+                }
+            }
+
             updateMotivationMessage(streak, completed) {
                 let message = '';
                 let emoji = '';
+                const progress = (completed / this.totalDays) * 100;
 
                 if (completed === 0) {
                     message = 'ابدأ رحلتك المباركة';
                     emoji = '🌟';
+                } else if (progress === 100) {
+                    message = 'مبارك! أتممت الرحلة كاملة';
+                    emoji = '🎊';
+                } else if (progress >= 75) {
+                    message = 'أوشكت على النهاية! استمر بارك الله فيك';
+                    emoji = '🏆';
+                } else if (progress >= 50) {
+                    message = 'أكثر من النصف! استمر بارك الله فيك';
+                    emoji = '💪';
                 } else if (streak >= 7) {
                     message = `ما شاء الله! لديك سلسلة رائعة من الأيام المتتالية`;
                     emoji = '🔥';
-                } else if (completed >= 20) {
-                    message = 'أكثر من النصف! استمر بارك الله فيك';
-                    emoji = '💪';
                 } else if (streak >= 3) {
                     message = 'ممتاز! استمر في هذا الإنجاز';
                     emoji = '⭐';
@@ -635,7 +808,7 @@
                 `;
             }
 
-            calculateStreak() {
+                        calculateStreak() {
                 if (this.completedDays.length === 0) return 0;
                 
                 const sortedDays = [...this.completedDays].sort((a, b) => b - a);
@@ -732,13 +905,22 @@
             }
 
             exportToExcel() {
+                const progress = (this.completedDays.length / this.totalDays) * 100;
                 const data = {
                     currentDay: this.currentDay,
                     completedDays: this.completedDays,
                     totalDays: this.totalDays,
-                    completionPercentage: (this.completedDays.length / this.totalDays * 100).toFixed(1),
+                    completionPercentage: Math.round(progress),
                     streak: this.calculateStreak(),
-                    exportDate: new Date().toLocaleDateString('ar-SA')
+                    exportDate: new Date().toLocaleDateString('ar-SA'),
+                    progressDetails: {
+                        completed: this.completedDays.length,
+                        remaining: this.totalDays - this.completedDays.length,
+                        quarterMark: progress >= 25,
+                        halfMark: progress >= 50,
+                        threeQuarterMark: progress >= 75,
+                        completed100: progress >= 100
+                    }
                 };
                 
                 const jsonString = JSON.stringify(data, null, 2);
