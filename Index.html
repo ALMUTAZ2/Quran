@@ -1,0 +1,801 @@
+  <!DOCTYPE html>
+  <html lang="ar" dir="rtl">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>رحلة البقرة المباركة</title>
+      <style>
+          * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+          }
+
+          body {
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+              min-height: 100vh;
+              padding: 20px;
+              direction: rtl;
+          }
+
+          .container {
+              max-width: 400px;
+              margin: 0 auto;
+              background: rgba(255, 255, 255, 0.95);
+              border-radius: 20px;
+              overflow: hidden;
+              box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+          }
+
+          .header {
+              background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
+              padding: 30px 20px;
+              text-align: center;
+              color: white;
+              position: relative;
+              overflow: hidden;
+          }
+
+          .header::before {
+              content: '';
+              position: absolute;
+              top: -50%;
+              left: -50%;
+              width: 200%;
+              height: 200%;
+              background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
+              animation: sparkle 20s linear infinite;
+          }
+
+          @keyframes sparkle {
+              0% { transform: translateX(0) translateY(0); }
+              100% { transform: translateX(-50px) translateY(-50px); }
+          }
+
+          .moon {
+              font-size: 40px;
+              margin-bottom: 10px;
+              display: inline-block;
+              animation: float 3s ease-in-out infinite;
+          }
+
+          @keyframes float {
+              0%, 100% { transform: translateY(0px); }
+              50% { transform: translateY(-10px); }
+          }
+
+          .header h1 {
+              font-size: 28px;
+              margin-bottom: 10px;
+              font-weight: bold;
+              position: relative;
+              z-index: 2;
+          }
+
+          .header p {
+              font-size: 16px;
+              opacity: 0.9;
+              margin-bottom: 15px;
+              position: relative;
+              z-index: 2;
+          }
+
+          .bismillah {
+              font-size: 20px;
+              font-weight: bold;
+              color: #ffd700;
+              text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+              position: relative;
+              z-index: 2;
+          }
+
+          .verse-section {
+              background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+              padding: 25px;
+              margin: 20px;
+              border-radius: 15px;
+              text-align: center;
+              box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+              border: 3px solid #ffd700;
+          }
+
+          .verse-text {
+              font-size: 22px;
+              color: #d4af37;
+              font-weight: bold;
+              line-height: 1.8;
+              text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+          }
+
+          .stats-container {
+              display: flex;
+              justify-content: space-around;
+              padding: 20px;
+              gap: 15px;
+          }
+
+          .stat-card {
+              background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
+              color: white;
+              padding: 20px;
+              border-radius: 15px;
+              text-align: center;
+              flex: 1;
+              box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+              border: 2px solid #ffd700;
+              position: relative;
+              overflow: hidden;
+          }
+
+          .stat-card::before {
+              content: '';
+              position: absolute;
+              top: 0;
+              left: -100%;
+              width: 100%;
+              height: 100%;
+              background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+              transition: left 0.5s;
+          }
+
+          .stat-card:hover::before {
+              left: 100%;
+          }
+
+          .stat-number {
+              font-size: 36px;
+              font-weight: bold;
+              color: #ffd700;
+              text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+              margin-bottom: 8px;
+          }
+
+          .stat-label {
+              font-size: 14px;
+              opacity: 0.9;
+          }
+
+          .motivation-card {
+              background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+              margin: 20px;
+              padding: 20px;
+              border-radius: 15px;
+              text-align: center;
+              box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+              border: 2px solid #4a7c59;
+          }
+
+          .motivation-text {
+              color: #4a7c59;
+              font-weight: bold;
+              font-size: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+          }
+
+          .calendar-section {
+              background: rgba(255, 255, 255, 0.95);
+              margin: 20px;
+              padding: 25px;
+              border-radius: 15px;
+              box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          }
+
+          .calendar-header {
+              text-align: center;
+              margin-bottom: 20px;
+              color: #4a7c59;
+              font-size: 24px;
+              font-weight: bold;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+          }
+
+          .calendar-grid {
+              display: grid;
+              grid-template-columns: repeat(4, 1fr);
+              gap: 10px;
+              margin-bottom: 20px;
+          }
+
+          .day-button {
+              width: 60px;
+              height: 60px;
+              border: 2px solid #ffd700;
+              border-radius: 12px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-weight: bold;
+              font-size: 16px;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              position: relative;
+              overflow: hidden;
+          }
+
+          .day-button.completed {
+              background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
+              color: white;
+              transform: scale(1.05);
+              box-shadow: 0 5px 15px rgba(74, 124, 89, 0.4);
+          }
+
+          .day-button.completed::after {
+              content: '✓';
+              position: absolute;
+              top: 2px;
+              right: 2px;
+              font-size: 12px;
+              color: #ffd700;
+          }
+
+          .day-button.current {
+              background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+              color: #4a7c59;
+              animation: pulse 2s infinite;
+              box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+          }
+
+          @keyframes pulse {
+              0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+              50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
+              100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+          }
+
+          .day-button:not(.completed):not(.current) {
+              background: rgba(255, 255, 255, 0.8);
+              color: #666;
+          }
+
+          .controls-section {
+              background: rgba(255, 255, 255, 0.95);
+              margin: 20px;
+              padding: 25px;
+              border-radius: 15px;
+              box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+          }
+
+          .controls-header {
+              text-align: center;
+              margin-bottom: 20px;
+              color: #4a7c59;
+              font-size: 20px;
+              font-weight: bold;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+          }
+
+          .control-button {
+              width: 100%;
+              padding: 15px;
+              margin: 10px 0;
+              border: none;
+              border-radius: 25px;
+              font-size: 16px;
+              font-weight: bold;
+              cursor: pointer;
+              transition: all 0.3s ease;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+              position: relative;
+              overflow: hidden;
+          }
+
+          .control-button::before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              left: 50%;
+              width: 0;
+              height: 0;
+              background: rgba(255, 255, 255, 0.3);
+              border-radius: 50%;
+              transition: all 0.3s ease;
+              transform: translate(-50%, -50%);
+          }
+
+          .control-button:active::before {
+              width: 300px;
+              height: 300px;
+          }
+
+          .complete-button {
+              background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
+              color: white;
+              border: 2px solid #ffd700;
+          }
+
+          .complete-button:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 8px 25px rgba(74, 124, 89, 0.4);
+          }
+
+          .reset-button {
+              background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+              color: white;
+          }
+
+          .reset-button:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+          }
+
+          .export-button {
+              background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
+              color: white;
+          }
+
+          .export-button:hover {
+              transform: translateY(-2px);
+              box-shadow: 0 8px 25px rgba(74, 124, 89, 0.4);
+          }
+
+          .dua-section {
+              background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
+              margin: 20px;
+              padding: 25px;
+              border-radius: 15px;
+              text-align: center;
+              color: white;
+              box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+          }
+
+          .dua-header {
+              font-size: 18px;
+              margin-bottom: 15px;
+              color: #ffd700;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              gap: 10px;
+          }
+
+          .dua-text {
+              font-size: 16px;
+              line-height: 1.8;
+              opacity: 0.95;
+          }
+
+          .celebration {
+              position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              pointer-events: none;
+              z-index: 1000;
+          }
+
+          .confetti {
+              position: absolute;
+              width: 10px;
+              height: 10px;
+              background: #ffd700;
+              animation: confetti-fall 3s linear infinite;
+          }
+
+          @keyframes confetti-fall {
+              0% {
+                  transform: translateY(-100vh) rotate(0deg);
+                  opacity: 1;
+              }
+              100% {
+                  transform: translateY(100vh) rotate(720deg);
+                  opacity: 0;
+              }
+          }
+
+          .progress-bar {
+              background: rgba(255, 255, 255, 0.3);
+              height: 8px;
+              border-radius: 4px;
+              margin: 15px 0;
+              overflow: hidden;
+          }
+
+          .progress-fill {
+              background: linear-gradient(90deg, #ffd700, #ffed4e);
+              height: 100%;
+              border-radius: 4px;
+              transition: width 0.5s ease;
+              box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+          }
+      </style>
+  </head>
+  <body>
+      <div class="container">
+          <!-- Header Section -->
+          <div class="header">
+              <div class="moon">🌙</div>
+              <h1>رحلة البقرة المباركة</h1>
+              <p>40 يوماً من النور والبركة والهداية</p>
+              <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
+              <div class="progress-bar">
+                  <div class="progress-fill" id="progressFill"></div>
+              </div>
+          </div>
+
+          <!-- Verse Section -->
+          <div class="verse-section">
+              <div class="verse-text">
+                  ⚘ وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةً لِّلْمُؤْمِنِينَ ⚘
+              </div>
+          </div>
+
+          <!-- Stats Section -->
+          <div class="stats-container">
+              <div class="stat-card">
+                  <div class="stat-number" id="completedDays">0</div>
+                  <div class="stat-label">أيام مكتملة</div>
+              </div>
+              <div class="stat-card">
+                  <div class="stat-number" id="remainingDays">40</div>
+                  <div class="stat-label">أيام متبقية</div>
+              </div>
+              <div class="stat-card">
+                  <div class="stat-number" id="streakDays">0</div>
+                  <div class="stat-label">أيام متتالية</div>
+              </div>
+          </div>
+
+          <!-- Motivation Card -->
+          <div class="motivation-card" id="motivationCard">
+              <div class="motivation-text">
+                  🔥 ما شاء الله! ابدأ رحلتك المباركة
+              </div>
+          </div>
+
+          <!-- Calendar Section -->
+          <div class="calendar-section">
+              <div class="calendar-header">
+                  📅 تقويم الرحلة المباركة
+              </div>
+              <div class="calendar-grid" id="calendarGrid">
+                  <!-- Days will be generated by JavaScript -->
+              </div>
+          </div>
+
+          <!-- Controls Section -->
+          <div class="controls-section">
+              <div class="controls-header">
+                  🎯 إدارة رحلتك
+              </div>
+              <button class="control-button complete-button" id="completeButton">
+                  ✅ تم إكمال قراءة اليوم
+              </button>
+              <button class="control-button reset-button" id="resetButton">
+                  🔄 بداية جديدة
+              </button>
+              <button class="control-button export-button" id="exportButton">
+                  📊 تصدير إلى Excel
+              </button>
+          </div>
+
+          <!-- Dua Section -->
+          <div class="dua-section">
+              <div class="dua-header">
+                  🤲 دعاء ختم القراءة
+              </div>
+              <div class="dua-text">
+                  اللهم اجعل القرآن ربيع قلوبنا ونور صدورنا وجلاء أحزانا وذهاب همومنا
+              </div>
+          </div>
+      </div>
+
+      <!-- Celebration Effect -->
+      <div class="celebration" id="celebration"></div>
+
+      <script>
+          class QuranJourney {
+              constructor() {
+                  this.currentDay = 5;
+                  this.completedDays = [1, 2, 3, 4]; // الأيام 
+                  this.totalDays = 40;
+                  this.loadData();
+                  this.initializeElements();
+                  this.generateCalendar();
+                  this.updateDisplay();
+                  this.bindEvents();
+                  this.createSoundEffects();
+              }
+
+              createSoundEffects() {
+                  // إنشاء الأصوات باستخدام Web Audio API
+                  this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                  
+                  this.sounds = {
+                      success: () => this.playTone(523.25, 0.3, 'sine'), // C5
+                      celebration: () => this.playCelebrationSound(),
+                      click: () => this.playTone(440, 0.1, 'square') // A4
+                  };
+              }
+
+              playTone(frequency, duration, type = 'sine') {
+                  const oscillator = this.audioContext.createOscillator();
+                  const gainNode = this.audioContext.createGain();
+                  
+                  oscillator.connect(gainNode);
+                  gainNode.connect(this.audioContext.destination);
+                  
+                  oscillator.frequency.value = frequency;
+                  oscillator.type = type;
+                  
+                  gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
+                  gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
+                  
+                  oscillator.start(this.audioContext.currentTime);
+                  oscillator.stop(this.audioContext.currentTime + duration);
+              }
+
+              playCelebrationSound() {
+                  // تشغيل نغمة احتفالية
+                  const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+                  notes.forEach((note, index) => {
+                      setTimeout(() => {
+                          this.playTone(note, 0.2, 'sine');
+                      }, index * 100);
+                  });
+              }
+
+              initializeElements() {
+                  this.elements = {
+                      completedDays: document.getElementById('completedDays'),
+                      remainingDays: document.getElementById('remainingDays'),
+                      streakDays: document.getElementById('streakDays'),
+                      motivationCard: document.getElementById('motivationCard'),
+                      calendarGrid: document.getElementById('calendarGrid'),
+                      completeButton: document.getElementById('completeButton'),
+                      resetButton: document.getElementById('resetButton'),
+                      exportButton: document.getElementById('exportButton'),
+                      progressFill: document.getElementById('progressFill'),
+                      celebration: document.getElementById('celebration')
+                  };
+              }
+
+              generateCalendar() {
+                  this.elements.calendarGrid.innerHTML = '';
+                  
+                  for (let day = 1; day <= this.totalDays; day++) {
+                      const dayButton = document.createElement('div');
+                      dayButton.className = 'day-button';
+                      dayButton.textContent = day;
+                      dayButton.id = `day-${day}`;
+                      
+                      if (this.completedDays.includes(day)) {
+                          dayButton.classList.add('completed');
+                      } else if (day === this.currentDay) {
+                          dayButton.classList.add('current');
+                      }
+                      
+                      this.elements.calendarGrid.appendChild(dayButton);
+                  }
+              }
+
+              updateDisplay() {
+                  const completed = this.completedDays.length;
+                  const remaining = this.totalDays - completed;
+                  const streak = this.calculateStreak();
+                  const progress = (completed / this.totalDays) * 100;
+
+                  this.elements.completedDays.textContent = completed;
+                  this.elements.remainingDays.textContent = remaining;
+                  this.elements.streakDays.textContent = streak;
+                  this.elements.progressFill.style.width = `${progress}%`;
+
+                  this.updateMotivationMessage(streak, completed);
+                  this.generateCalendar();
+              }
+
+              updateMotivationMessage(streak, completed) {
+                  let message = '';
+                  let emoji = '';
+
+                  if (completed === 0) {
+                      message = 'ابدأ رحلتك المباركة';
+                      emoji = '🌟';
+                  } else if (streak >= 7) {
+                      message = `ما شاء الله! لديك سلسلة رائعة من الأيام المتتالية`;
+                      emoji = '🔥';
+                  } else if (completed >= 20) {
+                      message = 'أكثر من النصف! استمر بارك الله فيك';
+                      emoji = '💪';
+                  } else if (streak >= 3) {
+                      message = 'ممتاز! استمر في هذا الإنجاز';
+                      emoji = '⭐';
+                  } else {
+                      message = 'بارك الله فيك! كل يوم خطوة للأمام';
+                      emoji = '✨';
+                  }
+
+                  this.elements.motivationCard.innerHTML = `
+                      <div class="motivation-text">
+                          ${emoji} ${message}
+                      </div>
+                  `;
+              }
+
+              calculateStreak() {
+                  if (this.completedDays.length === 0) return 0;
+                  
+                  const sortedDays = [...this.completedDays].sort((a, b) => b - a);
+                  let streak = 1;
+                  
+                  for (let i = 1; i < sortedDays.length; i++) {
+                      if (sortedDays[i-1] - sortedDays[i] === 1) {
+                          streak++;
+                      } else {
+                          break;
+                      }
+                  }
+                  
+                  return streak;
+              }
+
+              markToday() {
+                  if (!this.completedDays.includes(this.currentDay)) {
+                      this.completedDays.push(this.currentDay);
+                      this.saveData();
+                      
+                      // تشغيل الصوت والاحتفال
+                      this.sounds.celebration();
+                      this.showCelebration();
+                      
+                      // رسالة تهنئة
+                      setTimeout(() => {
+                          alert('🎉 بارك الله فيك! تم تسجيل إكمال قراءة اليوم');
+                      }, 500);
+                      
+                      // الانتقال لليوم التالي
+                      if (this.currentDay < this.totalDays) {
+                          this.currentDay++;
+                      }
+                      
+                      this.updateDisplay();
+                      
+                      // فحص إتمام الرحلة
+                      if (this.completedDays.length === this.totalDays) {
+                          setTimeout(() => {
+                              this.showCompletionCelebration();
+                          }, 1000);
+                      }
+                  } else {
+                      this.sounds.click();
+                      alert('لقد أكملت قراءة هذا اليوم بالفعل ✅');
+                  }
+              }
+
+              showCelebration() {
+                  // إنشاء تأثير الكونفيتي
+                  for (let i = 0; i < 50; i++) {
+                      setTimeout(() => {
+                          this.createConfetti();
+                      }, i * 50);
+                  }
+              }
+
+              createConfetti() {
+                  const confetti = document.createElement('div');
+                  confetti.className = 'confetti';
+                  confetti.style.left = Math.random() * 100 + '%';
+                  confetti.style.backgroundColor = this.getRandomColor();
+                  confetti.style.animationDelay = Math.random() * 2 + 's';
+                  
+                  this.elements.celebration.appendChild(confetti);
+                  
+                  setTimeout(() => {
+                      confetti.remove();
+                  }, 3000);
+              }
+
+              getRandomColor() {
+                  const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
+                  return colors[Math.floor(Math.random() * colors.length)];
+              }
+
+              showCompletionCelebration() {
+                  // احتفال خاص بإتمام الرحلة
+                  for (let i = 0; i < 100; i++) {
+                      setTimeout(() => {
+                          this.createConfetti();
+                      }, i * 30);
+                  }
+                  
+                  setTimeout(() => {
+                      alert('🎊 مبارك! لقد أتممت رحلة البقرة المباركة! \n🤲 جعل الله هذا العمل في ميزان حسناتك');
+                  }, 1000);
+              }
+
+              resetJourney() {
+                  if (confirm('هل أنت متأكد من بدء رحلة جديدة؟ سيتم حذف جميع البيانات الحالية.')) {
+                      this.currentDay = 1;
+                      this.completedDays = [];
+                      this.saveData();
+                      this.updateDisplay();
+                      this.sounds.click();
+                      alert('🔄 تم بدء رحلة جديدة بنجاح!');
+                  }
+              }
+
+              exportToExcel() {
+                  const data = {
+                      currentDay: this.currentDay,
+                      completedDays: this.completedDays,
+                      totalDays: this.totalDays,
+                      completionPercentage: (this.completedDays.length / this.totalDays * 100).toFixed(1),
+                      streak: this.calculateStreak(),
+                      exportDate: new Date().toLocaleDateString('ar-SA')
+                  };
+                  
+                  const jsonString = JSON.stringify(data, null, 2);
+                  const blob = new Blob([jsonString], { type: 'application/json' });
+                  const url = URL.createObjectURL(blob);
+                  
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.download = `رحلة_البقرة_${new Date().toISOString().split('T')[0]}.json`;
+                  a.click();
+                  
+                  URL.revokeObjectURL(url);
+                  this.sounds.success();
+                  alert('📊 تم تصدير البيانات بنجاح!');
+              }
+
+              bindEvents() {
+                  this.elements.completeButton.addEventListener('click', () => {
+                      this.sounds.click();
+                      this.markToday();
+                  });
+
+                  this.elements.resetButton.addEventListener('click', () => {
+                      this.resetJourney();
+                  });
+
+                  this.elements.exportButton.addEventListener('click', () => {
+                      this.exportToExcel();
+                  });
+
+                  // إضافة أصوات للأزرار
+                  document.querySelectorAll('button, .day-button').forEach(button => {
+                      button.addEventListener('mouseenter', () => {
+                          if (this.sounds.click) {
+                              this.playTone(330, 0.05, 'sine');
+                          }
+                      });
+                  });
+              }
+
+              saveData() {
+                  const data = {
+                      currentDay: this.currentDay,
+                      completedDays: this.completedDays
+                  };
+                  localStorage.setItem('quranJourneyData', JSON.stringify(data));
+              }
+
+              loadData() {
+                  const savedData = localStorage.getItem('quranJourneyData');
+                  if (savedData) {
+                      const data = JSON.parse(savedData);
+                      this.currentDay = data.currentDay || 1;
+                      this.completedDays = data.completedDays || [];
+                  }
+              }
+          }
+
+          // تشغيل التطبيق عند تحميل الصفحة
+          document.addEventListener('DOMContentLoaded', () => {
+              new QuranJourney();
+          });
+      </script>
+  </body>
+  </html>
