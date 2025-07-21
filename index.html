@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رحلة سورة البقرة المباركة</title>
+    <title>رحلة البقرة المباركة - 40 يوم</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
         * {
@@ -17,23 +17,24 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            direction: rtl;
+            color: #333;
         }
 
         .container {
-            max-width: 400px;
+            max-width: 1200px;
             margin: 0 auto;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            overflow: hidden;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
         }
 
         .header {
-            background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
-            padding: 30px 20px;
-            text-align: center;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
+            text-align: center;
+            padding: 30px;
             position: relative;
             overflow: hidden;
         }
@@ -45,157 +46,45 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="2" fill="rgba(255,255,255,0.1)"/></svg>') repeat;
-            animation: sparkle 20s linear infinite;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
         }
 
-        @keyframes sparkle {
-            0% { transform: translateX(0) translateY(0); }
-            100% { transform: translateX(-50px) translateY(-50px); }
-        }
-
-        .moon {
-            font-size: 40px;
-            margin-bottom: 10px;
-            display: inline-block;
-            animation: float 3s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
         .header h1 {
-            font-size: 28px;
+            font-size: 2.5rem;
             margin-bottom: 10px;
-            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             position: relative;
-            z-index: 2;
+            z-index: 1;
         }
 
         .header p {
-            font-size: 16px;
+            font-size: 1.2rem;
             opacity: 0.9;
-            margin-bottom: 15px;
             position: relative;
-            z-index: 2;
-        }
-
-        .bismillah {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ffd700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            position: relative;
-            z-index: 2;
-            margin-bottom: 20px;
-        }
-
-        .progress-section {
-            position: relative;
-            z-index: 2;
-            margin-top: 20px;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            font-size: 14px;
-            opacity: 0.9;
-        }
-
-        .progress-percentage {
-            font-size: 24px;
-            font-weight: bold;
-            color: #ffd700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-        }
-
-        .progress-status {
-            font-size: 12px;
-            opacity: 0.8;
-        }
-
-        .progress-container {
-            background: rgba(255, 255, 255, 0.2);
-            height: 12px;
-            border-radius: 25px;
-            overflow: hidden;
-            position: relative;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
-            border-radius: 25px;
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
-        }
-
-        .progress-bar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            animation: shine 2s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%); }
-            100% { transform: translateX(100%); }
-        }
-
-        .progress-markers {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 10px;
-            opacity: 0.7;
-        }
-
-        .progress-marker {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 2px;
-        }
-
-        .progress-marker-dot {
-            width: 4px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.5);
-            border-radius: 50%;
-        }
-
-        .progress-marker.active .progress-marker-dot {
-            background: #ffd700;
-            box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+            z-index: 1;
         }
 
         .stats-container {
-            display: flex;
-            justify-content: space-around;
-            padding: 20px;
-            gap: 15px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 30px;
+            background: #f8f9fa;
         }
 
         .stat-card {
-            background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
-            color: white;
-            padding: 20px;
+            background: white;
+            padding: 25px;
             border-radius: 15px;
             text-align: center;
-            flex: 1;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            border: 2px solid #ffd700;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
@@ -207,7 +96,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
             transition: left 0.5s;
         }
 
@@ -215,179 +104,264 @@
             left: 100%;
         }
 
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
         .stat-number {
-            font-size: 36px;
+            font-size: 3rem;
             font-weight: bold;
-            color: #ffd700;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .stat-label {
-            font-size: 14px;
-            opacity: 0.9;
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 5px;
         }
 
-        .stat-percentage {
-            font-size: 12px;
-            opacity: 0.8;
-            margin-top: 4px;
+        .progress-container {
+            padding: 30px;
+            background: white;
         }
 
-        .verse-section {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 25px;
-            margin: 20px;
-            border-radius: 15px;
+        .progress-header {
             text-align: center;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-            border: 3px solid #ffd700;
+            margin-bottom: 30px;
         }
 
-        .verse-text {
-            font-size: 22px;
-            color: #d4af37;
-            font-weight: bold;
-            line-height: 1.8;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        .progress-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
         }
 
-        .motivation-card {
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            margin: 20px;
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            border: 2px solid #4a7c59;
+        .progress-wrapper {
+            position: relative;
+            background: #e9ecef;
+            height: 40px;
+            border-radius: 25px;
+            overflow: hidden;
+            margin: 20px 0;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
         }
 
-        .motivation-text {
-            color: #4a7c59;
-            font-weight: bold;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .calendar-section {
-            background: rgba(255, 255, 255, 0.95);
-            margin: 20px;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .calendar-header {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #4a7c59;
-            font-size: 24px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .calendar-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .day-button {
-            width: 60px;
-            height: 60px;
-            border: 2px solid #ffd700;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            border-radius: 25px;
+            transition: width 1s ease-in-out;
             position: relative;
             overflow: hidden;
         }
 
-        .day-button.completed {
-            background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
+        .progress-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                transparent 25%, 
+                rgba(255,255,255,0.2) 25%, 
+                rgba(255,255,255,0.2) 50%, 
+                transparent 50%, 
+                transparent 75%, 
+                rgba(255,255,255,0.2) 75%);
+            background-size: 20px 20px;
+            animation: move 1s linear infinite;
+        }
+
+        @keyframes move {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 20px; }
+        }
+
+        .progress-percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             color: white;
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(74, 124, 89, 0.4);
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            z-index: 2;
+        }
+
+        .progress-markers {
+            position: relative;
+            height: 20px;
+            margin-top: 10px;
+        }
+
+        .progress-marker {
+            position: absolute;
+            width: 3px;
+            height: 20px;
+            background: #ccc;
+            transition: background 0.3s ease;
+        }
+
+        .progress-marker.active {
+            background: #4CAF50;
+        }
+
+        .progress-marker:nth-child(1) { left: 25%; }
+        .progress-marker:nth-child(2) { left: 50%; }
+        .progress-marker:nth-child(3) { left: 75%; }
+        .progress-marker:nth-child(4) { left: 100%; }
+
+        .motivation-section {
+            padding: 30px;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 50%, #fecfef 100%);
+            text-align: center;
+        }
+
+        .motivation-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+            max-width: 500px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .motivation-text {
+            font-size: 1.3rem;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .calendar-section {
+            padding: 30px;
+            background: #f8f9fa;
+        }
+
+        .calendar-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .calendar-header h2 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 1.8rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+            gap: 15px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .day-button {
+            width: 80px;
+            height: 80px;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            color: #666;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .day-button.completed {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
+            color: white;
+            animation: completedPulse 2s infinite;
         }
 
         .day-button.completed::after {
             content: '✓';
             position: absolute;
-            top: 2px;
-            right: 2px;
-            font-size: 12px;
-            color: #ffd700;
+            top: -5px;
+            right: -5px;
+            background: #fff;
+            color: #4CAF50;
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        @keyframes completedPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
         }
 
         .day-button.current {
-            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-            color: #4a7c59;
-            animation: pulse 2s infinite;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+            background: linear-gradient(135deg, #ff9800, #f57c00);
+            color: white;
+            animation: currentBlink 1.5s infinite;
         }
 
-        @keyframes pulse {
-            0% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
-            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
-            100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.6); }
+        @keyframes currentBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
 
-        .day-button:not(.completed):not(.current) {
-            background: rgba(255, 255, 255, 0.8);
-            color: #666;
-        }
-
-        .controls-section {
-            background: rgba(255, 255, 255, 0.95);
-            margin: 20px;
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
-        }
-
-        .controls-header {
+        .actions-section {
+            padding: 30px;
+            background: white;
             text-align: center;
-            margin-bottom: 20px;
-            color: #4a7c59;
-            font-size: 20px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            border-top: 1px solid #eee;
         }
 
-        .control-button {
-            width: 100%;
-            padding: 15px;
-            margin: 10px 0;
+        .action-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 30px;
             border: none;
-            border-radius: 25px;
-            font-size: 16px;
+            border-radius: 50px;
+            font-size: 1.1rem;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: flex;
+            text-decoration: none;
+            display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 10px;
             position: relative;
             overflow: hidden;
         }
 
-        .control-button::before {
+        .btn::before {
             content: '';
             position: absolute;
             top: 50%;
@@ -400,66 +374,42 @@
             transform: translate(-50%, -50%);
         }
 
-        .control-button:active::before {
+        .btn:hover::before {
             width: 300px;
             height: 300px;
         }
 
-        .complete-button {
-            background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
+        .btn-primary {
+            background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
-            border: 2px solid #ffd700;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
         }
 
-        .complete-button:hover {
+        .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(74, 124, 89, 0.4);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
         }
 
-        .reset-button {
-            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        .btn-secondary {
+            background: linear-gradient(135deg, #2196F3, #1976D2);
             color: white;
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
         }
 
-        .reset-button:hover {
+        .btn-secondary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+            box-shadow: 0 8px 25px rgba(33, 150, 243, 0.4);
         }
 
-        .export-button {
-            background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
+        .btn-danger {
+            background: linear-gradient(135deg, #f44336, #d32f2f);
             color: white;
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.3);
         }
 
-        .export-button:hover {
+        .btn-danger:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(74, 124, 89, 0.4);
-        }
-
-        .dua-section {
-            background: linear-gradient(135deg, #4a7c59 0%, #6a9b73 100%);
-            margin: 20px;
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            color: white;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-        }
-
-        .dua-header {
-            font-size: 18px;
-            margin-bottom: 15px;
-            color: #ffd700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .dua-text {
-            font-size: 16px;
-            line-height: 1.8;
-            opacity: 0.95;
+            box-shadow: 0 8px 25px rgba(244, 67, 54, 0.4);
         }
 
         .celebration {
@@ -477,10 +427,10 @@
             width: 10px;
             height: 10px;
             background: #ffd700;
-            animation: confetti-fall 3s linear infinite;
+            animation: confettiFall 3s linear forwards;
         }
 
-        @keyframes confetti-fall {
+        @keyframes confettiFall {
             0% {
                 transform: translateY(-100vh) rotate(0deg);
                 opacity: 1;
@@ -490,109 +440,143 @@
                 opacity: 0;
             }
         }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-number {
+                font-size: 2.5rem;
+            }
+
+            .calendar-grid {
+                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+                gap: 10px;
+            }
+
+            .day-button {
+                width: 60px;
+                height: 60px;
+                font-size: 1rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+
+        .footer p {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <div class="moon">🌙</div>
-            <h1>رحلة البقرة المباركة</h1>
-            <p>40 يوماً من النور والبركة والهداية</p>
-            <div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ</div>
-            
-            <div class="progress-section">
-                <div class="progress-info">
-                    <div class="progress-status">التقدم في الرحلة</div>
-                    <div class="progress-percentage" id="progressPercentage">10%</div>
-                </div>
-                <div class="progress-container">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-                <div class="progress-markers">
-                    <div class="progress-marker active">
-                        <div class="progress-marker-dot"></div>
-                        <span>البداية</span>
-                    </div>
-                    <div class="progress-marker" id="quarterMarker">
-                        <div class="progress-marker-dot"></div>
-                        <span>25%</span>
-                    </div>
-                    <div class="progress-marker" id="halfMarker">
-                        <div class="progress-marker-dot"></div>
-                        <span>50%</span>
-                    </div>
-                    <div class="progress-marker" id="threeQuarterMarker">
-                        <div class="progress-marker-dot"></div>
-                        <span>75%</span>
-                    </div>
-                    <div class="progress-marker" id="endMarker">
-                        <div class="progress-marker-dot"></div>
-                        <span>النهاية</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="verse-section">
-            <div class="verse-text">
-                ⚘ وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةً لِّلْمُؤْمِنِينَ ⚘
-            </div>
+            <h1>🕌 رحلة البقرة المباركة</h1>
+            <p>رحلة روحانية لمدة 40 يوماً مع سورة البقرة</p>
         </div>
 
         <div class="stats-container">
             <div class="stat-card">
-                <div class="stat-number" id="completedDays">4</div>
-                <div class="stat-label">أيام مكتملة</div>
-                <div class="stat-percentage" id="completedPercentage">10%</div>
+                <div class="stat-number" id="completedDays">0</div>
+                <div class="stat-label">الأيام المكتملة</div>
+                <div class="stat-percentage" id="completedPercentage">0%</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="remainingDays">36</div>
-                <div class="stat-label">أيام متبقية</div>
-                <div class="stat-percentage" id="remainingPercentage">90%</div>
+                <div class="stat-number" id="remainingDays">40</div>
+                <div class="stat-label">الأيام المتبقية</div>
+                <div class="stat-percentage" id="remainingPercentage">100%</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number" id="streakDays">4</div>
-                <div class="stat-label">أيام متتالية</div>
-                <div class="stat-percentage" id="streakPercentage">🔥</div>
+                <div class="stat-number" id="streakDays">0</div>
+                <div class="stat-label">الأيام المتتالية</div>
+                <div class="stat-percentage" id="streakPercentage">💪</div>
             </div>
         </div>
 
-        <div class="motivation-card" id="motivationCard">
-            <div class="motivation-text">
-                ⭐ ممتاز! استمر في هذا الإنجاز
+        <div class="progress-container">
+            <div class="progress-header">
+                <h2>📊 مؤشر التقدم</h2>
+            </div>
+            <div class="progress-wrapper">
+                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                <div class="progress-percentage" id="progressPercentage">0%</div>
+            </div>
+            <div class="progress-markers">
+                <div class="progress-marker" id="quarterMarker"></div>
+                <div class="progress-marker" id="halfMarker"></div>
+                <div class="progress-marker" id="threeQuarterMarker"></div>
+                <div class="progress-marker" id="endMarker"></div>
+            </div>
+        </div>
+
+        <div class="motivation-section">
+            <div class="motivation-card" id="motivationCard">
+                <div class="motivation-text">
+                    🌟 ابدأ رحلتك المباركة
+                </div>
             </div>
         </div>
 
         <div class="calendar-section">
             <div class="calendar-header">
-                📅 تقويم الرحلة المباركة
+                <h2>📅 تقويم الرحلة</h2>
+                <p>اضغط على الأيام لمتابعة تقدمك</p>
             </div>
             <div class="calendar-grid" id="calendarGrid">
+                <!-- سيتم إنشاء الأيام بواسطة JavaScript -->
             </div>
         </div>
 
-        <div class="controls-section">
-            <div class="controls-header">
-                🎯 إدارة رحلتك
+        <div class="actions-section">
+            <div class="action-buttons">
+                <button class="btn btn-primary" id="completeButton">
+                    ✅ إتمام قراءة اليوم
+                </button>
+                <button class="btn btn-secondary" id="exportButton">
+                    📊 تصدير إلى Excel
+                </button>
+                <button class="btn btn-danger" id="resetButton">
+                    🔄 بدء رحلة جديدة
+                </button>
             </div>
-            <button class="control-button complete-button" id="completeButton">
-                ✅ تم إكمال قراءة اليوم
-            </button>
-            <button class="control-button reset-button" id="resetButton">
-                🔄 بداية جديدة
-            </button>
-            <button class="control-button export-button" id="exportButton">
-                📊 تصدير إلى Excel
-            </button>
         </div>
 
-        <div class="dua-section">
-            <div class="dua-header">
-                🤲 دعاء ختم القراءة
-            </div>
-            <div class="dua-text">
-                اللهم اجعل القرآن ربيع قلوبنا ونور صدورنا وجلاء أحزانا وذهاب همومنا
-            </div>
+        <div class="footer">
+            <p>🤲 بارك الله فيك وتقبل منك صالح الأعمال</p>
+            <p>📖 "وَهَٰذَا كِتَابٌ أَنزَلْنَاهُ مُبَارَكٌ فَاتَّبِعُوهُ وَاتَّقُوا لَعَلَّكُمْ تُرْحَمُونَ"</p>
         </div>
     </div>
 
@@ -602,6 +586,7 @@
             constructor() {
                 this.currentDay = 5;
                 this.completedDays = [1, 2, 3, 4];
+                this.completedDaysData = {}; // لحفظ بيانات كل يوم مكتمل
                 this.totalDays = 40;
                 this.loadData();
                 this.initializeElements();
@@ -611,71 +596,22 @@
                 this.createSoundEffects();
             }
 
-            createSoundEffects() {
-                try {
-                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    
-                    this.sounds = {
-                        success: () => this.playTone(523.25, 0.3, 'sine'),
-                        celebration: () => this.playCelebrationSound(),
-                        click: () => this.playTone(440, 0.1, 'square')
-                    };
-                } catch (e) {
-                    console.log('Audio not supported');
-                    this.sounds = {
-                        success: () => {},
-                        celebration: () => {},
-                        click: () => {}
-                    };
-                }
-            }
-
-            playTone(frequency, duration, type = 'sine') {
-                try {
-                    const oscillator = this.audioContext.createOscillator();
-                    const gainNode = this.audioContext.createGain();
-                    
-                    oscillator.connect(gainNode);
-                    gainNode.connect(this.audioContext.destination);
-                    
-                    oscillator.frequency.value = frequency;
-                    oscillator.type = type;
-                    
-                    gainNode.gain.setValueAtTime(0.3, this.audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, this.audioContext.currentTime + duration);
-                    
-                    oscillator.start(this.audioContext.currentTime);
-                    oscillator.stop(this.audioContext.currentTime + duration);
-                } catch (e) {
-                    console.log('Audio playback failed');
-                }
-            }
-
-            playCelebrationSound() {
-                const notes = [523.25, 659.25, 783.99, 1046.50];
-                notes.forEach((note, index) => {
-                    setTimeout(() => {
-                        this.playTone(note, 0.2, 'sine');
-                    }, index * 100);
-                });
-            }
-
             initializeElements() {
                 this.elements = {
                     completedDays: document.getElementById('completedDays'),
                     remainingDays: document.getElementById('remainingDays'),
                     streakDays: document.getElementById('streakDays'),
-                    motivationCard: document.getElementById('motivationCard'),
-                    calendarGrid: document.getElementById('calendarGrid'),
-                    completeButton: document.getElementById('completeButton'),
-                    resetButton: document.getElementById('resetButton'),
-                    exportButton: document.getElementById('exportButton'),
-                    celebration: document.getElementById('celebration'),
-                    progressBar: document.getElementById('progressBar'),
-                    progressPercentage: document.getElementById('progressPercentage'),
                     completedPercentage: document.getElementById('completedPercentage'),
                     remainingPercentage: document.getElementById('remainingPercentage'),
                     streakPercentage: document.getElementById('streakPercentage'),
+                    progressBar: document.getElementById('progressBar'),
+                    progressPercentage: document.getElementById('progressPercentage'),
+                    motivationCard: document.getElementById('motivationCard'),
+                    calendarGrid: document.getElementById('calendarGrid'),
+                    completeButton: document.getElementById('completeButton'),
+                    exportButton: document.getElementById('exportButton'),
+                    resetButton: document.getElementById('resetButton'),
+                    celebration: document.getElementById('celebration'),
                     quarterMarker: document.getElementById('quarterMarker'),
                     halfMarker: document.getElementById('halfMarker'),
                     threeQuarterMarker: document.getElementById('threeQuarterMarker'),
@@ -683,14 +619,63 @@
                 };
             }
 
+            // دالة تحويل التاريخ الميلادي إلى هجري
+            getHijriDate(gregorianDate = new Date()) {
+                const hijriYearDiff = 579;
+                const gregorianYear = gregorianDate.getFullYear();
+                const hijriYear = gregorianYear - hijriYearDiff;
+                
+                const hijriNewYear = new Date(gregorianYear, 6, 7);
+                
+                let daysDiff;
+                if (gregorianDate >= hijriNewYear) {
+                    daysDiff = Math.floor((gregorianDate - hijriNewYear) / (1000 * 60 * 60 * 24));
+                } else {
+                    const lastYearHijriNewYear = new Date(gregorianYear - 1, 6, 7);
+                    daysDiff = Math.floor((gregorianDate - lastYearHijriNewYear) / (1000 * 60 * 60 * 24));
+                }
+                
+                const hijriMonths = [30, 29, 30, 29, 30, 29, 30, 29, 30, 29, 30, 29];
+                
+                let month = 1;
+                let day = daysDiff + 1;
+                
+                for (let i = 0; i < hijriMonths.length; i++) {
+                    if (day <= hijriMonths[i]) {
+                        month = i + 1;
+                        break;
+                    }
+                    day -= hijriMonths[i];
+                }
+                
+                const formattedMonth = month.toString().padStart(2, '0');
+                const formattedDay = day.toString().padStart(2, '0');
+                
+                return `${hijriYear}/${formattedMonth}/${formattedDay} هـ`;
+            }
+
+            // دالة للحصول على الوقت الحالي بصيغة 24 ساعة
+            getCurrentTime() {
+                const now = new Date();
+                const hours = now.getHours().toString().padStart(2, '0');
+                const minutes = now.getMinutes().toString().padStart(2, '0');
+                const seconds = now.getSeconds().toString().padStart(2, '0');
+                return `${hours}:${minutes}:${seconds}`;
+            }
+
+            getDayName(dayIndex) {
+                const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
+                return days[dayIndex];
+            }
+
             generateCalendar() {
                 this.elements.calendarGrid.innerHTML = '';
                 
                 for (let day = 1; day <= this.totalDays; day++) {
-                    const dayButton = document.createElement('div');
+                    const dayButton = document.createElement('button');
                     dayButton.className = 'day-button';
                     dayButton.textContent = day;
-                    dayButton.id = `day-${day}`;
+                    dayButton.dataset.day = day;
                     
                     if (this.completedDays.includes(day)) {
                         dayButton.classList.add('completed');
@@ -698,84 +683,78 @@
                         dayButton.classList.add('current');
                     }
                     
+                    dayButton.addEventListener('click', () => this.selectDay(day));
                     this.elements.calendarGrid.appendChild(dayButton);
                 }
+            }
+
+            selectDay(day) {
+                this.sounds.click();
+                this.currentDay = day;
+                this.updateDisplay();
+                this.saveData();
             }
 
             updateDisplay() {
                 const completed = this.completedDays.length;
                 const remaining = this.totalDays - completed;
-                const streak = this.calculateStreak();
                 const progress = (completed / this.totalDays) * 100;
+                const streak = this.calculateStreak();
 
+                // تحديث الإحصائيات
                 this.elements.completedDays.textContent = completed;
                 this.elements.remainingDays.textContent = remaining;
                 this.elements.streakDays.textContent = streak;
+                this.elements.completedPercentage.textContent = `${Math.round(progress)}%`;
+                this.elements.remainingPercentage.textContent = `${Math.round(100 - progress)}%`;
+                this.elements.streakPercentage.textContent = streak > 0 ? '🔥' : '💪';
 
-                const progressRounded = Math.round(progress);
-                this.elements.progressPercentage.textContent = `${progressRounded}%`;
-                this.elements.completedPercentage.textContent = `${progressRounded}%`;
-                this.elements.remainingPercentage.textContent = `${100 - progressRounded}%`;
-                
-                if (streak >= 7) {
-                    this.elements.streakPercentage.textContent = '🔥🔥';
-                } else if (streak >= 3) {
-                    this.elements.streakPercentage.textContent = '🔥';
-                } else {
-                    this.elements.streakPercentage.textContent = '💪';
-                }
-
+                // تحديث شريط التقدم
                 this.elements.progressBar.style.width = `${progress}%`;
+                this.elements.progressPercentage.textContent = `${Math.round(progress)}%`;
+
+                // تحديث علامات التقدم
                 this.updateProgressMarkers(progress);
-                this.updateMotivationMessage(streak, completed);
+
+                // تحديث رسالة التحفيز
+                this.updateMotivationMessage(progress);
+
+                // تحديث التقويم
                 this.generateCalendar();
+
+                // تحديث زر الإكمال
+                this.updateCompleteButton();
             }
 
             updateProgressMarkers(progress) {
-                document.querySelectorAll('.progress-marker').forEach(marker => {
-                    marker.classList.remove('active');
-                });
-
-                if (progress >= 25) {
-                    this.elements.quarterMarker.classList.add('active');
-                }
-                if (progress >= 50) {
-                    this.elements.halfMarker.classList.add('active');
-                }
-                if (progress >= 75) {
-                    this.elements.threeQuarterMarker.classList.add('active');
-                }
-                if (progress >= 100) {
-                    this.elements.endMarker.classList.add('active');
-                }
+                this.elements.quarterMarker.classList.toggle('active', progress >= 25);
+                this.elements.halfMarker.classList.toggle('active', progress >= 50);
+                this.elements.threeQuarterMarker.classList.toggle('active', progress >= 75);
+                this.elements.endMarker.classList.toggle('active', progress >= 100);
             }
 
-            updateMotivationMessage(streak, completed) {
+            updateMotivationMessage(progress) {
                 let message = '';
                 let emoji = '';
-                const progress = (completed / this.totalDays) * 100;
 
-                if (completed === 0) {
-                    message = 'ابدأ رحلتك المباركة';
+                if (progress === 0) {
+                    message = 'ابدأ رحلتك المباركة مع سورة البقرة';
                     emoji = '🌟';
-                } else if (progress === 100) {
-                    message = 'مبارك! أتممت الرحلة كاملة';
-                    emoji = '🎊';
-                } else if (progress >= 75) {
-                    message = 'أوشكت على النهاية! استمر بارك الله فيك';
-                    emoji = '🏆';
-                } else if (progress >= 50) {
-                    message = 'أكثر من النصف! استمر بارك الله فيك';
-                    emoji = '💪';
-                } else if (streak >= 7) {
-                    message = `ما شاء الله! لديك سلسلة رائعة من الأيام المتتالية`;
-                    emoji = '🔥';
-                } else if (streak >= 3) {
-                    message = 'ممتاز! استمر في هذا الإنجاز';
+                } else if (progress < 25) {
+                    message = 'بداية رائعة! استمر في المسيرة المباركة';
+                    emoji = '🚀';
+                } else if (progress < 50) {
+                    message = 'ربع الطريق اكتمل! بارك الله فيك';
                     emoji = '⭐';
+                } else if (progress < 75) {
+                    message = 'نصف الرحلة اكتمل! أحسنت صنعاً';
+                    emoji = '🎯';
+                } else if (progress < 100) {
+                    message = 'أوشكت على الانتهاء! لا تتوقف الآن';
+                    emoji = '🏆';
                 } else {
-                    message = 'بارك الله فيك! كل يوم خطوة للأمام';
-                    emoji = '✨';
+                    message = 'مبارك! أتممت الرحلة المباركة';
+                    emoji = '👑';
                 }
 
                 this.elements.motivationCard.innerHTML = `
@@ -785,15 +764,27 @@
                 `;
             }
 
+            updateCompleteButton() {
+                if (this.completedDays.includes(this.currentDay)) {
+                    this.elements.completeButton.textContent = '✅ تم إكمال هذا اليوم';
+                    this.elements.completeButton.style.opacity = '0.7';
+                } else {
+                    this.elements.completeButton.textContent = '✅ إتمام قراءة اليوم';
+                    this.elements.completeButton.style.opacity = '1';
+                }
+            }
+
             calculateStreak() {
                 if (this.completedDays.length === 0) return 0;
                 
                 const sortedDays = [...this.completedDays].sort((a, b) => b - a);
-                let streak = 1;
+                let streak = 0;
+                let expectedDay = this.currentDay - 1;
                 
-                for (let i = 1; i < sortedDays.length; i++) {
-                    if (sortedDays[i-1] - sortedDays[i] === 1) {
+                for (const day of sortedDays) {
+                    if (day === expectedDay) {
                         streak++;
+                        expectedDay--;
                     } else {
                         break;
                     }
@@ -802,16 +793,30 @@
                 return streak;
             }
 
+            // دالة محسنة لتسجيل إكمال اليوم مع التاريخ والوقت
             markToday() {
                 if (!this.completedDays.includes(this.currentDay)) {
+                    // سحب التاريخ والوقت الحالي
+                    const currentHijriDate = this.getHijriDate();
+                    const currentTime = this.getCurrentTime();
+                    
+                    // إضافة اليوم للأيام المكتملة
                     this.completedDays.push(this.currentDay);
+                    
+                    // حفظ بيانات اليوم المكتمل
+                    this.completedDaysData[this.currentDay] = {
+                        hijriDate: currentHijriDate,
+                        time: currentTime,
+                        completedAt: new Date().toISOString()
+                    };
+                    
                     this.saveData();
                     
                     this.sounds.celebration();
                     this.showCelebration();
                     
                     setTimeout(() => {
-                        alert('🎉 بارك الله فيك! تم تسجيل إكمال قراءة اليوم');
+                        alert(`🎉 بارك الله فيك! تم تسجيل إكمال قراءة اليوم\n📅 التاريخ: ${currentHijriDate}\n🕐 الوقت: ${currentTime}`);
                     }, 500);
                     
                     if (this.currentDay < this.totalDays) {
@@ -827,11 +832,18 @@
                     }
                 } else {
                     this.sounds.click();
-                    alert('لقد أكملت قراءة هذا اليوم بالفعل ✅');
+                    // عرض بيانات اليوم المكتمل مسبقاً
+                    const dayData = this.completedDaysData[this.currentDay];
+                    if (dayData) {
+                        alert(`لقد أكملت قراءة هذا اليوم بالفعل ✅\n📅 التاريخ: ${dayData.hijriDate}\n🕐 الوقت: ${dayData.time}`);
+                    } else {
+                        alert('لقد أكملت قراءة هذا اليوم بالفعل ✅');
+                    }
                 }
             }
 
             showCelebration() {
+                // إنشاء تأثير الاحتفال
                 for (let i = 0; i < 50; i++) {
                     setTimeout(() => {
                         this.createConfetti();
@@ -854,78 +866,77 @@
             }
 
             getRandomColor() {
-                const colors = ['#ffd700', '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57'];
+                const colors = ['#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#ffeaa7', '#dda0dd', '#98d8c8'];
                 return colors[Math.floor(Math.random() * colors.length)];
             }
 
             showCompletionCelebration() {
+                this.sounds.completion();
+                alert('🎊 مبارك! لقد أتممت رحلة البقرة المباركة كاملة! 🎊\n\nبارك الله فيك وتقبل منك صالح الأعمال\nجعل الله هذا العمل في ميزان حسناتك');
+                
+                // احتفال كبير
                 for (let i = 0; i < 100; i++) {
                     setTimeout(() => {
                         this.createConfetti();
                     }, i * 30);
                 }
-                
-                setTimeout(() => {
-                    alert('🎊 مبارك! لقد أتممت رحلة البقرة المباركة! \n🤲 جعل الله هذا العمل في ميزان حسناتك');
-                }, 1000);
             }
 
-            resetJourney() {
-                if (confirm('هل أنت متأكد من بدء رحلة جديدة؟ سيتم حذف جميع البيانات الحالية.')) {
-                    this.currentDay = 1;
-                    this.completedDays = [];
-                    this.saveData();
-                    this.updateDisplay();
-                    this.sounds.click();
-                    alert('🔄 تم بدء رحلة جديدة بنجاح!');
-                }
-            }
-
+            // دالة محسنة لتصدير Excel مع البيانات الحقيقية
             exportToExcel() {
                 try {
-                    // إنشاء البيانات للتصدير
                     const currentDate = new Date();
-                    const hijriDate = this.getHijriDate();
+                    const currentHijriDate = this.getHijriDate();
                     const progress = (this.completedDays.length / this.totalDays) * 100;
                     
-                    // بيانات الجدول الرئيسي
                     const mainData = [];
+                    mainData.push(['رقم اليوم', 'التاريخ الهجري', 'اليوم', 'الوقت', 'اكتملت القراءة']);
                     
-                    // إضافة صف العناوين
-                    mainData.push(['رقم اليوم', 'التاريخ', 'اليوم', 'الوقت', 'اكتملت القراءة']);
-                    
-                    // إضافة بيانات كل يوم
+                    // إضافة بيانات كل يوم مع التواريخ والأوقات الحقيقية
                     for (let day = 1; day <= this.totalDays; day++) {
-                        const dayDate = new Date(currentDate);
-                        dayDate.setDate(currentDate.getDate() + (day - this.currentDay));
+                        let hijriDate = '';
+                        let timeCompleted = '';
+                        let dayName = '';
                         
-                        const hijriDateForDay = this.getHijriDateForDay(day);
-                        const dayName = this.getDayName(dayDate.getDay());
-                        const timeCompleted = this.completedDays.includes(day) ? '20:30:00' : '';
+                        if (this.completedDays.includes(day) && this.completedDaysData[day]) {
+                            // استخدام البيانات المحفوظة للأيام المكتملة
+                            hijriDate = this.completedDaysData[day].hijriDate;
+                            timeCompleted = this.completedDaysData[day].time;
+                            
+                            // حساب اسم اليوم من التاريخ المحفوظ
+                            const savedDate = new Date(this.completedDaysData[day].completedAt);
+                            dayName = this.getDayName(savedDate.getDay());
+                        } else if (day === this.currentDay) {
+                            // اليوم الحالي
+                            hijriDate = this.getHijriDate();
+                            dayName = this.getDayName(new Date().getDay());
+                        } else {
+                            // الأيام المستقبلية أو غير المكتملة
+                            hijriDate = '';
+                            dayName = '';
+                        }
+                        
                         const isCompleted = this.completedDays.includes(day) ? 'نعم' : 'لا';
                         
                         mainData.push([
                             day,
-                            hijriDateForDay,
+                            hijriDate,
                             dayName,
                             timeCompleted,
                             isCompleted
                         ]);
                     }
                     
-                    // إنشاء ورقة العمل الرئيسية
                     const ws1 = XLSX.utils.aoa_to_sheet(mainData);
-                    
-                    // تنسيق العرض للأعمدة
                     ws1['!cols'] = [
                         { wch: 12 }, // رقم اليوم
-                        { wch: 20 }, // التاريخ
+                        { wch: 20 }, // التاريخ الهجري
                         { wch: 15 }, // اليوم
                         { wch: 15 }, // الوقت
                         { wch: 18 }  // اكتملت القراءة
                     ];
                     
-                    // بيانات الإحصائيات
+                    // بيانات الإحصائيات المحسنة
                     const statsData = [
                         ['إحصائيات رحلة البقرة المباركة'],
                         [''],
@@ -935,33 +946,44 @@
                         ['الأيام المتبقية', this.totalDays - this.completedDays.length],
                         ['نسبة الإنجاز', `${Math.round(progress)}%`],
                         ['الأيام المتتالية', this.calculateStreak()],
-                        ['تاريخ التصدير', currentDate.toLocaleDateString('ar-SA')],
-                        ['وقت التصدير', currentDate.toLocaleTimeString('ar-SA')],
+                        ['تاريخ التصدير (هجري)', currentHijriDate],
+                        ['تاريخ التصدير (ميلادي)', currentDate.toLocaleDateString('ar-SA')],
+                        ['وقت التصدير', this.getCurrentTime()],
                         [''],
-                        ['الأيام المكتملة بالتفصيل'],
-                        ['رقم اليوم', 'حالة الإكمال']
+                        ['تفاصيل الأيام المكتملة'],
+                        ['رقم اليوم', 'التاريخ الهجري', 'الوقت', 'اليوم']
                     ];
                     
-                    // إضافة تفاصيل الأيام المكتملة
+                    // إضافة تفاصيل الأيام المكتملة مع التواريخ والأوقات
                     this.completedDays.sort((a, b) => a - b).forEach(day => {
-                        statsData.push([day, 'مكتمل ✅']);
+                        const dayData = this.completedDaysData[day];
+                        if (dayData) {
+                            const savedDate = new Date(dayData.completedAt);
+                            const dayName = this.getDayName(savedDate.getDay());
+                            statsData.push([
+                                day, 
+                                dayData.hijriDate, 
+                                dayData.time, 
+                                dayName
+                            ]);
+                        } else {
+                            statsData.push([day, 'غير محدد', 'غير محدد', 'غير محدد']);
+                        }
                     });
                     
                     const ws2 = XLSX.utils.aoa_to_sheet(statsData);
-                    
-                    // تنسيق عرض أعمدة ورقة الإحصائيات
                     ws2['!cols'] = [
-                        { wch: 25 }, // البيان
-                        { wch: 20 }  // القيمة
+                        { wch: 15 }, // رقم اليوم
+                        { wch: 20 }, // التاريخ الهجري
+                        { wch: 15 }, // الوقت
+                        { wch: 15 }  // اليوم
                     ];
                     
-                    // إنشاء المصنف
                     const wb = XLSX.utils.book_new();
                     XLSX.utils.book_append_sheet(wb, ws1, 'رحلة البقرة');
                     XLSX.utils.book_append_sheet(wb, ws2, 'الإحصائيات');
                     
-                    // تصدير الملف
-                    const fileName = `رحلة_البقرة_${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')}.xlsx`;
+                    const fileName = `رحلة_البقرة_${currentHijriDate.replace(/\//g, '-').replace(' هـ', '')}.xlsx`;
                     XLSX.writeFile(wb, fileName);
                     
                     this.sounds.success();
@@ -972,69 +994,103 @@
                     alert('❌ حدث خطأ أثناء تصدير البيانات. يرجى المحاولة مرة أخرى.');
                 }
             }
-            
-            getHijriDate() {
-                // تاريخ هجري تقريبي - يمكن تحسينه باستخدام مكتبة متخصصة
-                const currentDate = new Date();
-                const hijriYear = 1447;
-                const hijriMonth = 1;
-                const hijriDay = 23;
-                return `${hijriYear}/${hijriMonth}/${hijriDay} هـ`;
-            }
-            
-            getHijriDateForDay(day) {
-                // حساب التاريخ الهجري لكل يوم (تقريبي)
-                const baseDay = 23;
-                const calculatedDay = baseDay + (day - 1);
-                return `١٤٤٧/١/${calculatedDay} هـ`;
-            }
-            
-            getDayName(dayIndex) {
-                const days = ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'];
-                return days[dayIndex];
-            }
 
-            bindEvents() {
-                this.elements.completeButton.addEventListener('click', () => {
+            resetJourney() {
+                if (confirm('هل أنت متأكد من بدء رحلة جديدة؟ سيتم حذف جميع البيانات الحالية.')) {
+                    this.currentDay = 1;
+                    this.completedDays = [];
+                    this.completedDaysData = {};
+                    this.saveData();
+                    this.updateDisplay();
                     this.sounds.click();
-                    this.markToday();
-                });
-
-                this.elements.resetButton.addEventListener('click', () => {
-                    this.resetJourney();
-                });
-
-                this.elements.exportButton.addEventListener('click', () => {
-                    this.exportToExcel();
-                });
-
-                document.querySelectorAll('button, .day-button').forEach(button => {
-                    button.addEventListener('mouseenter', () => {
-                        if (this.sounds && this.sounds.click) {
-                            this.playTone(330, 0.05, 'sine');
-                        }
-                    });
-                });
+                    alert('🔄 تم بدء رحلة جديدة بنجاح!');
+                }
             }
 
+            // دالة محسنة لحفظ البيانات
             saveData() {
                 const data = {
                     currentDay: this.currentDay,
-                    completedDays: this.completedDays
+                    completedDays: this.completedDays,
+                    completedDaysData: this.completedDaysData
                 };
                 localStorage.setItem('quranJourneyData', JSON.stringify(data));
             }
 
+            // دالة محسنة لتحميل البيانات
             loadData() {
                 const savedData = localStorage.getItem('quranJourneyData');
                 if (savedData) {
                     const data = JSON.parse(savedData);
-                    this.currentDay = data.currentDay || 5;
-                    this.completedDays = data.completedDays || [1, 2, 3, 4];
+                    this.currentDay = data.currentDay || 1;
+                    this.completedDays = data.completedDays || [];
+                    this.completedDaysData = data.completedDaysData || {};
+                    
+                    // إضافة بيانات وهمية للأيام المكتملة السابقة إذا لم تكن موجودة
+                    this.completedDays.forEach(day => {
+                        if (!this.completedDaysData[day]) {
+                            // إضافة بيانات تقديرية للأيام السابقة
+                            const estimatedDate = new Date();
+                            estimatedDate.setDate(estimatedDate.getDate() - (this.currentDay - day));
+                            
+                            this.completedDaysData[day] = {
+                                hijriDate: this.getHijriDate(estimatedDate),
+                                time: '20:30:00', // وقت افتراضي
+                                completedAt: estimatedDate.toISOString()
+                            };
+                        }
+                    });
+                }
+            }
+
+            bindEvents() {
+                this.elements.completeButton.addEventListener('click', () => this.markToday());
+                this.elements.exportButton.addEventListener('click', () => this.exportToExcel());
+                this.elements.resetButton.addEventListener('click', () => this.resetJourney());
+            }
+
+            createSoundEffects() {
+                this.sounds = {
+                    click: () => this.playSound(800, 0.1, 'square'),
+                    success: () => this.playSound(1000, 0.2, 'sine'),
+                    celebration: () => {
+                        this.playSound(523, 0.2, 'sine');
+                        setTimeout(() => this.playSound(659, 0.2, 'sine'), 150);
+                        setTimeout(() => this.playSound(784, 0.2, 'sine'), 300);
+                    },
+                    completion: () => {
+                        const notes = [523, 659, 784, 1047];
+                        notes.forEach((note, index) => {
+                            setTimeout(() => this.playSound(note, 0.3, 'sine'), index * 200);
+                        });
+                    }
+                };
+            }
+
+            playSound(frequency, duration, type = 'sine') {
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = frequency;
+                    oscillator.type = type;
+                    
+                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + duration);
+                    
+                    oscillator.start(audioContext.currentTime);
+                    oscillator.stop(audioContext.currentTime + duration);
+                } catch (error) {
+                    console.log('الصوت غير مدعوم في هذا المتصفح');
                 }
             }
         }
 
+        // تشغيل التطبيق عند تحميل الصفحة
         document.addEventListener('DOMContentLoaded', () => {
             new QuranJourney();
         });
